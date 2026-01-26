@@ -1,0 +1,23 @@
+# Ambiente virtual
+venv/
+.env/
+
+# Cache
+__pycache__/
+.pytest_cache/
+
+# Playwright
+playwright-report/
+test-results/
+
+# Allure
+allure-results/
+allure-report/
+
+# IDE
+.vscode/
+.idea/
+
+# Sistema
+.DS_Store
+Thumbs.db

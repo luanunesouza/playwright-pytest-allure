@@ -1,0 +1,26 @@
+from playwright.sync_api import sync_playwright, expect
+import time
+
+def test_inscricao_python():
+    with sync_playwright() as pw:
+        navegador = pw.chromium.launch(headless=False)
+        page = navegador.new_page()
+
+        page.goto("https://www.hashtagtreinamentos.com/curso-python")
+
+        page.fill('xpath=//*[@id="firstname"]', 'Luan')
+        page.fill('xpath=//*[@id="email"]', 'luan@gmail.com')
+        page.fill('xpath=//*[@id="phone"]', '(11) 97377-7777')
+
+        page.locator('xpath=//*[@id="_form_2475_submit"]').click()
+
+        # validação = define PASS/FAIL
+        expect(page.get_by_text("Conheça o Programa Completo")).to_be_visible()
+
+        print("TESTE PASSOU")
+
+        time.sleep(10)
+
+        page.screenshot(path="evidencias/inscricao_sucesso.png", full_page=True)
+        
+        navegador.close()
