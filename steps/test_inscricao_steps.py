@@ -1,8 +1,15 @@
 import allure
+from pathlib import Path
 from pytest_bdd import scenarios, given, when, then
 from pages.formulario_page import FormularioPage
 
-scenarios("../tests/test_inscricao.feature")
+BASE_DIR = Path(__file__).parent
+FEATURE_FILE = BASE_DIR.parent / "tests" / "test_inscricao.feature"
+
+scenarios(str(FEATURE_FILE))
+
+
+# scenarios("../tests/test_inscricao.feature")
 
 @given("que acesso a página de inscrição", target_fixture="formulario")
 def acessar_pagina(page):
