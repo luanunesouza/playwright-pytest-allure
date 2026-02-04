@@ -9,7 +9,7 @@ FEATURE_FILE = BASE_DIR.parent / "tests" / "test_inscricao.feature"
 scenarios(str(FEATURE_FILE))
 
 
-# scenarios("../tests/test_inscricao.feature")
+#### scenarios("../tests/test_inscricao.feature")
 
 @given("que acesso a página de inscrição", target_fixture="formulario")
 def acessar_pagina(page):
