@@ -12,7 +12,11 @@ class FormularioPage:
 
     @allure.step("Preencher nome: {nome}")
     def preencher_nome(self, nome):
-        self.page.fill('xpath=//*[@id="firstname"]', nome)
+        self.page.wait_for_selector('#firstname', timeout=60000)
+        self.page.fill('#firstname', nome)
+
+#    def preencher_nome(self, nome):
+#        self.page.fill('xpath=//*[@id="firstname"]', nome)
 
     @allure.step("Preencher email: {email}")
     def preencher_email(self, email):
