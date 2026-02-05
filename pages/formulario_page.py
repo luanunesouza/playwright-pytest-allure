@@ -12,23 +12,26 @@ class FormularioPage:
 
     @allure.step("Preencher nome: {nome}")
     def preencher_nome(self, nome):
-        self.page.wait_for_selector('#firstname', timeout=60000)
-        self.page.fill('#firstname', nome)
+        frame = self.page.frame_locator("iframe")
+        frame.locator("#firstname").fill(nome)
 
 #    def preencher_nome(self, nome):
 #        self.page.fill('xpath=//*[@id="firstname"]', nome)
 
     @allure.step("Preencher email: {email}")
     def preencher_email(self, email):
-        self.page.fill('xpath=//*[@id="email"]', email)
+        frame = self.page.frame_locator("iframe")
+        frame.locator("#email").fill(email)
 
     @allure.step("Preencher telefone: {telefone}")
     def preencher_telefone(self, telefone):
-        self.page.fill('xpath=//*[@id="phone"]', telefone)
+        frame = self.page.frame_locator("iframe")
+        frame.locator("#phone").fill(telefone)
 
     @allure.step("Enviar formulário")
     def enviar(self):
-        self.page.click('xpath=//*[@id="_form_2475_submit"]')
+        frame = self.page.frame_locator("iframe")
+        frame.locator("#_form_2475_submit").click()
 
     @allure.step("Validar inscrição com sucesso")
     def validar_sucesso(self):
