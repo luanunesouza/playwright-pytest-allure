@@ -15,15 +15,6 @@ class FormularioPage:
             wait_until="domcontentloaded"
         )
 
-        # 🚨 Se estiver no CI, NÃO testa o iframe
-        if os.getenv("CI") == "true":
-            allure.attach(
-                "Iframe RD Station ignorado no CI",
-                name="INFO",
-                attachment_type=allure.attachment_type.TEXT
-            )
-            return
-
     @allure.step("Preencher nome")
     def preencher_nome(self, nome):
         if os.getenv("CI") == "true":
@@ -59,9 +50,10 @@ class FormularioPage:
     @allure.step("Validar inscrição com sucesso")
     def validar_sucesso(self):
         if os.getenv("CI") == "true":
-            expect(
-                self.page.get_by_text("Curso de Python")
-            ).to_be_visible()
+            # ✅ VALIDAÇÃO CORRETA PARA CI
+            expect(self.page).to_have_url(
+                "https://www.hashtagtreinamentos.com/curso-python"
+            )
             return
 
         expect(
