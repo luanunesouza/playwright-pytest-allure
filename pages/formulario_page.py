@@ -11,7 +11,7 @@ class FormularioPage:
     def acessar(self):
         self.page.goto(
             "https://www.hashtagtreinamentos.com/curso-python",
-            wait_until="networkidle"
+            wait_until="domcontentloaded"
         )
 
     @allure.step("Preencher nome: {nome}")
