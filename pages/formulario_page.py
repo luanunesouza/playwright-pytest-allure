@@ -5,7 +5,6 @@ class FormularioPage:
 
     def __init__(self, page):
         self.page = page
-        self.frame = page.frame_locator('iframe[src*="rdstation"]')
 
     @allure.step("Acessar página de inscrição")
     def acessar(self):
@@ -14,15 +13,29 @@ class FormularioPage:
             wait_until="domcontentloaded"
         )
 
-    @allure.step("Preencher nome: {nome}")
+        # 🔥 SCROLL OBRIGATÓRIO (isso destrava o iframe no CI)
+        self.page.mouse.wheel(0, 3000)
+
+        # 🔥 Espera o iframe EXISTIR
+        self.page.wait_for_selector(
+            'iframe[src*="rdstation"]',
+            timeout=20000
+        )
+
+        # 🔥 Só agora cria o frame_locator
+        self.frame = self.page.frame_locator(
+            'iframe[src*="rdstation"]'
+        )
+
+    @allure.step("Preencher nome")
     def preencher_nome(self, nome):
         self.frame.locator("#firstname").fill(nome)
 
-    @allure.step("Preencher email: {email}")
+    @allure.step("Preencher email")
     def preencher_email(self, email):
         self.frame.locator("#email").fill(email)
 
-    @allure.step("Preencher telefone: {telefone}")
+    @allure.step("Preencher telefone")
     def preencher_telefone(self, telefone):
         self.frame.locator("#phone").fill(telefone)
 
@@ -30,7 +43,7 @@ class FormularioPage:
     def enviar(self):
         self.frame.locator("#_form_2475_submit").click()
 
-    @allure.step("Validar inscrição com sucesso")
+    @allure.step("Validar sucesso")
     def validar_sucesso(self):
         expect(
             self.page.get_by_text("Conheça o Programa Completo")
