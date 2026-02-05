@@ -1,42 +1,71 @@
+# Nome do workflow (aparece na aba Actions do GitHub)
 name: CI - Playwright Pytest
 
+# Define quando esse workflow será executado
 on:
+  # Executa quando houver push
   push:
     branches:
-      - main
+      - main  # Apenas quando o push for para a branch main
+
+  # Executa quando abrir ou atualizar um Pull Request
   pull_request:
     branches:
-      - main
+      - main  # Apenas PRs direcionados para a main
 
+# Define os jobs (tarefas) do workflow
 jobs:
+  # Nome do job (pode ser qualquer nome)
   tests:
+    # Sistema operacional onde o job vai rodar
     runs-on: ubuntu-latest
 
+    # Passos executados em sequência
     steps:
+      # Passo 1: baixar o código do repositório
       - name: Checkout do código
         uses: actions/checkout@v4
+        # Clona o repositório dentro da máquina do GitHub Actions
 
+      # Passo 2: configurar o Python no ambiente
       - name: Configurar Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+          # Define a versão do Python usada nos testes
 
+      # Passo 3: instalar dependências do projeto
       - name: Instalar dependências
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          # Atualiza o pip para a versão mais recente
 
+          pip install -r requirements.txt
+          # Instala todas as bibliotecas listadas no requirements.txt
+
+      # Passo 4: instalar Playwright e dependências do navegador
       - name: Instalar Playwright
         run: |
           playwright install
-          playwright install-deps
+          # Faz o download dos navegadores (Chromium, Firefox, WebKit)
 
+          playwright install-deps
+          # Instala dependências do sistema (necessárias no Linux)
+
+      # Passo 5: rodar os testes automatizados
       - name: Rodar testes
         run: |
           pytest -v --alluredir=allure-results
+          # Executa os testes com pytest
+          # -v → modo verboso
+          # --alluredir → salva os resultados para o Allure
 
+      # Passo 6: salvar os resultados do Allure como artefato
       - name: Upload Allure Results
         uses: actions/upload-artifact@v4
         with:
           name: allure-results
+          # Nome do artefato que aparecerá no GitHub Actions
+
           path: allure-results
+          # Pasta que será enviada (gerada pelo pytest)
